@@ -28,20 +28,37 @@
       text-shadow: 0 0 3px #0ff, 0 0 6px #0ff, 0 0 10px #0ff;
     }
 
-    .glitch-bg::before {
+    .glitch-bg::before,
+    .glitch-bg::after {
       content: '';
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0,255,255,0.08), transparent);
-      animation: glitch 4s infinite;
       z-index: 0;
     }
 
-    @keyframes glitch {
+    .glitch-bg::before {
+      background: linear-gradient(90deg, transparent, rgba(0,255,255,0.08), transparent);
+      animation: glitchCyan 4s infinite;
+    }
+
+    .glitch-bg::after {
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.07), transparent);
+      animation: glitchRed 6s infinite;
+    }
+
+    @keyframes glitchCyan {
       0% { transform: translateX(-100%); }
       50% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
+    }
+
+    @keyframes glitchRed {
+      0% { transform: translateX(100%) scaleY(1.02); opacity: 0.3; }
+      25% { opacity: 0.6; }
+      50% { transform: translateX(-100%) scaleY(1); opacity: 0.2; }
+      75% { opacity: 0.5; }
+      100% { transform: translateX(100%) scaleY(1.02); opacity: 0.3; }
     }
 
     .glitch-bg {
@@ -221,10 +238,30 @@
     <p class="text-cyan-200 text-lg md:text-xl max-w-3xl">
       We build futuristic PC builds, modding solutions, and next-level performance systems. NiFi means precision, neon, and innovation.
     </p>
-    <button class="mt-10 px-8 py-3 bg-cyan-500 text-black font-bold rounded-full shadow-lg hover:bg-cyan-300 transition">
+    <button onclick="openPopup()" class="mt-10 px-8 py-3 bg-cyan-500 text-black font-bold rounded-full shadow-lg hover:bg-cyan-300 transition">
       Get Started
     </button>
   </main>
+
+  <div id="popupOverlay" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex justify-center items-center z-50 hidden">
+    <div class="bg-gray-900 p-6 rounded-xl shadow-2xl w-11/12 max-w-6xl text-white relative">
+      <button onclick="closePopup()" class="absolute top-4 right-4 text-cyan-300 hover:text-white text-2xl font-bold">&times;</button>
+      <div class="flex flex-col md:flex-row justify-between gap-6 mt-6">
+        <div class="flex-1 bg-[#1f2937] p-6 rounded-lg text-center hover:bg-[#0ff2] transition">
+          <h3 class="text-xl font-bold mb-2 text-cyan-300">PC PREBUILD</h3>
+          <p class="text-sm text-gray-300">Ready-to-go performance systems.</p>
+        </div>
+        <div class="flex-1 bg-[#1f2937] p-6 rounded-lg text-center hover:bg-[#0ff2] transition">
+          <h3 class="text-xl font-bold mb-2 text-cyan-300">CUSTOM YOUR PC</h3>
+          <p class="text-sm text-gray-300">Tailored setups just for you.</p>
+        </div>
+        <div class="flex-1 bg-[#1f2937] p-6 rounded-lg text-center hover:bg-[#0ff2] transition">
+          <h3 class="text-xl font-bold mb-2 text-cyan-300">PERIPHERALS</h3>
+          <p class="text-sm text-gray-300">Keyboards, mice, monitors, and more.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="footer-info">
     © 2025 NiFi Solutions. All rights reserved.
@@ -280,12 +317,20 @@
     }
 
     document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.key === 'i') {
+      if (e.ctrlKey && e.key === 'm') {
         const display = document.getElementById('dataDisplay');
         display.style.display = display.style.display === 'none' ? 'flex' : 'none';
         renderDataList();
       }
     });
+
+    function openPopup() {
+      document.getElementById('popupOverlay').classList.remove('hidden');
+    }
+
+    function closePopup() {
+      document.getElementById('popupOverlay').classList.add('hidden');
+    }
   </script>
 </body>
 </html>
